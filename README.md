@@ -32,32 +32,18 @@ const userSchema = new mongoose.Schema ({
   ref: 'User'
   }],
 
-  posts: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Post'
-    }],
+  notifications: Boolean,
 
-  notifications: Still Deciding and will update this as I will move forward.
-
-  requests: {
-    count: {
-      type: Number,
-      default: 0
-    },
-    source: [{
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-      },
-      sentOn: {
-        type: Date,
-        default: Date.now
-      }
-      }]
-  },
   messages: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Chat'
+    sender: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    recipient: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    seen: Boolean
     }]
 })
 
@@ -65,6 +51,28 @@ const User = mongoose.model('User', UserSchema)
 
 module.exports = User
 
+
+
+ <!-- Request Model: -->
+
+const requestSchema = new mongoose.Schema ({
+  sender: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  recipient: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  sentOn: {
+    type: Date,
+    default: Date.now
+  }
+  })
+
+const Request = mongoose.model('Request', RequestSchema)
+
+module.exports = Request
 
 
  <!-- Post Model: -->
@@ -102,7 +110,7 @@ module.exports = User
 
  module.exports = Post
 
-
+ <!-- Comment Model: -->
  const commentSchema = new mongoose.Schema({
    text: {
      type: String,
@@ -122,7 +130,7 @@ module.exports = User
 
  module.exports = Comment
 
-
+ <!-- Chat Model: -->
 const chatSchema = new mongoose.Model({
   text: {
     type: String,
@@ -139,6 +147,24 @@ const chatSchema = new mongoose.Model({
   })
 
 ```
+```
+REST–ROUTES-Post
+| URL               | HTTP VERB  | ACTION  | Description      |
+| ::-------------   |::---------:| -----:: | ---------------::|
+|/posts             | GET        |  Index  | Show all posts   |
+|/posts             | POST       |  New    | Add new posts    |
+|/posts/:id         | PUT        |  Update | Post to update   |
+|/posts/:id/        | DELETE     |  Delete | Post to delete   |
+
+REST–ROUTES-USER  
+| URL                     | HTTP VERB  | ACTION  | Description                 |
+| ::-------------         |::---------:| -----:: | --------------------------::|
+|/users/signup            | POST       |  Sign up form   | Sign up new user    |
+|/users/login             | POST       |  Log in form    | Log in user         |
+|/users/:id/ViewProfile   | GET        |  User's profile | Show user's profile |  
+|/users/:id               | DELETE     |  Delete         | Delete user profile |
+```
+
 
 #### Technologies used:
 **React** – Amazing JavaScript library that provides developers super powers of building complex websites easily! Front-end has been developed using REACT and designed with semantic-ui-react.
