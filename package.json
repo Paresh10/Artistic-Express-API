@@ -1,0 +1,11 @@
+{
+  "name": "artistic-express-api",
+  "version": "1.0.0",
+  "description": "Social Site for Artists",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Paresh Sharma",
+  "license": "ISC"
+}
