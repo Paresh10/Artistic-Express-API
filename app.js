@@ -2,11 +2,19 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser')
 const session = require('express-session')
 const PORT = process.env.PORT
 
 // Require Database
 require('./db/db')
+
+
+
+// Body-Parser
+// app.use(bodyParser.json({ type: 'application/*+json'}))
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
 
 
 //Session
