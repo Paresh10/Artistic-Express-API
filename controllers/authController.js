@@ -39,20 +39,17 @@ router.post('/signup', async (req, res, next) => {
       const createdUser = await User.create({
         email: createdUserEmail,
         password: securePassword,
-        // name: req.body.name,
-        // occupation: req.body.occupation,
-        // about: req.body.about,
-        // from: req.body.from
+        name: req.body.name,
+        occupation: req.body.occupation,
+        about: req.body.about,
+        from: req.body.from
       })
-      console.log("createdUser after the args");
-      console.log(createdUser);
-
 
       req.session.loggedIn = true
       req.session.userId = createdUser._id
       req.session.userName = createdUser.name
 
-      res.json({
+      res.status(200).json({
         message: `Thanks for signing up ${createdUser.name}`
       })
     }
@@ -61,6 +58,83 @@ router.post('/signup', async (req, res, next) => {
     next(err)
   }
 }) 
+
+
+//GET login
+router.get('/login', (req, res) => {
+  res.status(200).json({
+    message: "Login here!"
+  })
+})
+
+
+// POST Login
+router.post('/login', async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      email: req.body.email
+    })
+
+    // if user does not exist
+    if (!user) {
+      res.json({
+        message: "UserName or Pssword is not valid"
+      })
+    }
+
+    // If user exist
+    else {
+      const loginUser = bcrypt.compareSync(req.body.password, user.password)
+
+      if (loginUser) {
+        req.session.loggedIn = true
+        req.session.userId = user.id
+        req.session.name = user.name
+        res.json({
+          message: `Welcome back ${user.name}!`
+        })
+      }
+
+      else {
+        res.json({
+          message: "Username or password is incorrect"
+        })
+      }
+    }
+  }
+
+  catch(err) {
+    next (err)
+  }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
