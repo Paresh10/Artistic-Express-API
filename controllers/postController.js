@@ -66,7 +66,18 @@ router.post('/', async (req, res, next) => {
 
 
 
-
+// Delete route
+router.delete('/:postId', async (req, res, next) => {
+	try {
+		deletedPost = await Post.findByIdAndRemove(req.params.postId)
+		res.json({
+			message: `Post was deleted`
+		})
+	}
+	catch (err) {
+		next(err)
+	}
+})
 
 
 
