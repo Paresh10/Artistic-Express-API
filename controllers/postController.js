@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const router = express.Router()
 const Post = require('../models/post')
 const User = require('../models/user')
+const requireAuth = require('../lib/requireAuth')
 
 
 // GET route
@@ -21,7 +22,7 @@ router.get('/', async (req, res, next) => {
 
 
 // Show route
-router.get('/:postId', async (req, res, next) => {
+router.get('/:postId', requireAuth, async (req, res, next) => {
 	try {
 		const foundPost = await Post.findById(req.params.postId).populate('user')
 		res.json({
@@ -80,7 +81,19 @@ router.delete('/:postId', async (req, res, next) => {
 })
 
 
-
+// Edit route
+router.get('/:postId/edit', async (req, res, next) => {
+	try {
+		const foundPostForEdit = await Post.findById(req.params.postId)
+		res.json({
+			post: foundPostForEdit,
+			message: `Here is the post to be edited`
+		})
+	}
+	catch(err) {
+		next(err)
+	}
+})
 
 
 
