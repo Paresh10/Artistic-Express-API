@@ -45,6 +45,7 @@ router.post('/', async (req, res, next) => {
 
 		const createNewPost = ({
 			body: req.body.body,
+			postPicture: req.body.postPicture,
 			user: currentUser
 		})
 

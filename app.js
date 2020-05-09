@@ -1,10 +1,19 @@
 // Dependencies
 require('dotenv').config()
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const PORT = process.env.PORT
+
+
+// Setup CORS
+app.use(cors({
+  origin: ['http://localhost:3001'],
+  credentials: true
+}))
+
 
 // Require Database
 require('./db/db')
@@ -40,6 +49,12 @@ app.use('/auth', authController)
 
 const postController = require('./controllers/postController')
 app.use('/posts', postController)
+
+
+
+// //Setup cors for users
+// CORS(users, origins=['http://localhost:3000'], supports_credentials=true)
+
 
 
 // Connect to server

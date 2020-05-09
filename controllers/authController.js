@@ -50,6 +50,7 @@ router.post('/signup', async (req, res, next) => {
       req.session.userName = createdUser.name
 
       res.status(200).json({
+        data: createdUser,
         message: `Thanks for signing up ${createdUser.name}`
       })
     }
@@ -91,6 +92,7 @@ router.post('/login', async (req, res, next) => {
         req.session.userId = user.id
         req.session.name = user.name
         res.json({
+          data: user,
           message: `Welcome back ${user.name}!`
         })
       }

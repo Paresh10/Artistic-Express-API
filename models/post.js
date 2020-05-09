@@ -4,10 +4,8 @@ const postSchema = new mongoose.Schema ({
   body: {
     type: String
   },
-  postPicture: {
-    data: Buffer,
-    contentType: String
-  },
+  postPicture: String,
+  postPictureId: String,
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
