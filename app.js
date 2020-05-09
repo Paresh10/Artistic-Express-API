@@ -38,6 +38,9 @@ app.use((req, res, next) => {
 const authController = require('./controllers/authController')
 app.use('/auth', authController)
 
+const postController = require('./controllers/postController')
+app.use('/posts', postController)
+
 
 // Connect to server
 app.listen(PORT, () => {
