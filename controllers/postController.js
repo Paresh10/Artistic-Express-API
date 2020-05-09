@@ -97,6 +97,24 @@ router.get('/:postId/edit', async (req, res, next) => {
 
 
 
+// Update route
+router.put('/:postId', async (req, res, next) => {
+	try {
+		const postForUpdate = {body: req.body.body}
+	
+	const updatePost = await Post.findByIdAndUpdate
+	(req.params.postId, postForUpdate, { new: true })
+	res.json({
+		message: `Post was updated`
+	})
+	
+	}
+	catch(err) {
+		next (err)
+	}
+
+})
+
 
 
 
