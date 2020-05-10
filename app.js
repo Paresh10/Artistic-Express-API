@@ -50,6 +50,9 @@ app.use('/auth', authController)
 const postController = require('./controllers/postController')
 app.use('/posts', postController)
 
+const userController = require('./controllers/userController')
+app.use('/users', userController)
+
 
 
 // //Setup cors for users

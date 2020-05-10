@@ -52,7 +52,7 @@ router.post('/', async (req, res, next) => {
 		if (req.session.loggedIn == true) {
 			const newPost = await Post.create(createNewPost)
 			res.json({
-				data: createNewPost,				
+				data: newPost,				
 				message: `Post has been added` 
 			})
 		}
@@ -88,7 +88,7 @@ router.get('/:postId/edit', async (req, res, next) => {
 	try {
 		const foundPostForEdit = await Post.findById(req.params.postId)
 		res.json({
-			post: foundPostForEdit,
+			data: foundPostForEdit,
 			message: `Here is the post to be edited`
 		})
 	}
@@ -107,6 +107,7 @@ router.put('/:postId', async (req, res, next) => {
 	const updatePost = await Post.findByIdAndUpdate
 	(req.params.postId, postForUpdate, { new: true })
 	res.json({
+		data: updatePost,
 		message: `Post was updated`
 	})
 	
