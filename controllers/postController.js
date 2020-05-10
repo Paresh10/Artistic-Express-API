@@ -11,7 +11,7 @@ router.get('/', async (req, res, next) => {
 	try {
 		const findAllPosts = await Post.find().populate('user')
 			res.json({
-				posts: findAllPosts,
+				data: findAllPosts,
 				message: `Here all all the found posts`
 			})
 	}
@@ -26,7 +26,7 @@ router.get('/:postId', requireAuth, async (req, res, next) => {
 	try {
 		const foundPost = await Post.findById(req.params.postId).populate('user')
 		res.json({
-			post: foundPost,
+			data: foundPost,
 			message: `Here is the found post`
 		})
 	}
@@ -52,6 +52,7 @@ router.post('/', async (req, res, next) => {
 		if (req.session.loggedIn == true) {
 			const newPost = await Post.create(createNewPost)
 			res.json({
+				data: createNewPost,				
 				message: `Post has been added` 
 			})
 		}

@@ -4,6 +4,10 @@ const postSchema = new mongoose.Schema ({
   body: {
     type: String
   },
+  posted: {
+    type: Date,
+    default: Date.now()
+  },
   postPicture: String,
   postPictureId: String,
   user: {
