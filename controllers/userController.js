@@ -22,5 +22,42 @@ router.get('/:userId', async (req, res, next) => {
 })
 
 
+// DELETE Route --> Delete User Porfile
+router.delete('/:userId', async (req, res, next) => {
+	try {
+		foundPosts = await Post.deleteMany({
+			user: req.params.userId
+		})
+
+		const deleteUser = await User.findOneAndRemove(req.params.userId)
+		await req.session.destroy()
+		res.json({
+			message: `User was deleted`
+		})
+	}
+	catch (err) {
+		next (err)
+	}
+})
+
+
+// Get Route --> Edit User Profile
+router.put('/:userId', async (req, res, next) => {
+	try {
+		const updateUser = await User.findByIdAndUpdate(req.params.userId, req.body, {
+			new: true
+		})
+
+		res.json({
+			data: updateUser,
+			message: `${updateUser.name}'s profile was just updated	`
+		})
+	}
+
+	catch (err) {
+		next (err)
+	}
+})
+
 
 module.exports = router
