@@ -61,12 +61,6 @@ router.post('/signup', async (req, res, next) => {
 }) 
 
 
-//GET login
-router.get('/login', (req, res) => {
-  res.status(200).json({
-    message: "Login here!"
-  })
-})
 
 
 // POST Login
@@ -78,7 +72,8 @@ router.post('/login', async (req, res, next) => {
 
     // if user does not exist
     if (!user) {
-      res.json({
+      res.status(500).json({
+
         message: "UserName or Pssword is not valid"
       })
     }

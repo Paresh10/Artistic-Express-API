@@ -7,6 +7,22 @@ const requireAuth = ('../lib/requireAuth')
 
 
 
+// GET Route --> Get ALl The Users
+router.get('/', async (req, res, next) => {
+	try {
+		const getAllTheUser = await User.find()
+
+		res.json({
+			data: getAllTheUser,
+			message: `Found all ${getAllTheUser.length} users here`
+		})
+	}
+
+	catch (err) {
+		next (err)
+	}
+})
+
 //GET Route--> Show User Profile
 router.get('/:userId', async (req, res, next) => {
 	try {
