@@ -25,7 +25,7 @@ router.post('/signup', async (req, res, next) => {
 
     // if user's email is already taken
     if (userWithThisEmail) {
-      res.json({
+      res.status(422).json({
         message: `${createdUserEmail} already taken`
       })
     }
@@ -73,7 +73,6 @@ router.post('/login', async (req, res, next) => {
     // if user does not exist
     if (!user) {
       res.status(500).json({
-
         message: "UserName or Pssword is not valid"
       })
     }
@@ -93,7 +92,7 @@ router.post('/login', async (req, res, next) => {
       }
 
       else {
-        res.json({
+        res.status(500).json({
           message: "Username or password is incorrect"
         })
       }
