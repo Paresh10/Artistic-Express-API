@@ -14,10 +14,8 @@ const userSchema = new mongoose.Schema ({
     about: String,
     from: String,
 
-    profilePicture: {
-      data: Buffer,
-      contentType: String
-    },
+    profilePicture: String,
+    profilePictureId: String, 
 
    friends: [{
     type: mongoose.Schema.Types.ObjectId,
