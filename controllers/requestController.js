@@ -78,42 +78,33 @@ router.post('/notifications/:senderId/:recipientId', async (req, res, next) => {
 
 		await sender.save()
 		await recipient.save()
-		
-		const deleteRequest = Request.findOneAndRemove({sender: sender})
+
+		const deleteRequest = await Request.findOneAndRemove({sender: sender})
+
+		res.json({
+		senderData: sender,
+		recipientData: recipient,
+		message: ` Friend List was updated`
+	})
+
 	}
 
 	else {
+		
+		// if not then siply delete friend request
+		const deleteRequest = await Request.findOneAndRemove({sender: sender})
 
-		const deleteRequest = Request.findOneAndRemove({sender: sender})
+		res.json({
+			message: `Freind Request was deleted`
+		})
 	}
 
 
-	console.log("findrequest")
-	console.log(findRequest)
-
-	console.log("sender")
-	console.log(sender)
-
-	console.log("recipient")
-	console.log(recipient)
-
-
-	res.json({
-		user1: sender,
-		user2: recipient,
-		message: ` Worked`
-	})
-
-}
+	}
 	catch (err) {
 		next(err)
 	}
 
-		
-		// if not then siply delete friend request
-
-
-		// func (sender, id )
 })
 
 
