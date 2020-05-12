@@ -38,6 +38,7 @@ app.use((req, res, next) => {
   res.locals.loggedIn = req.session.loggedIn
   res.locals.email = req.session.email
   res.locals.message = req.session.message
+  res.locals.name = req.session.name
   res.locals.userId = req.session.userId
   req.session.message = undefined
   next()
@@ -52,6 +53,9 @@ app.use('/posts', postController)
 
 const userController = require('./controllers/userController')
 app.use('/users', userController)
+
+const requestController = require('./controllers/requestController')
+app.use('/requests', requestController)
 
 
 
