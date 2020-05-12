@@ -13,7 +13,8 @@ const requestSchema = new mongoose.Schema ({
   sentOn: {
     type: Date,
     default: Date.now
-  }
+  },
+  status: Boolean
   })
 
 
