@@ -23,7 +23,7 @@ router.get('/', async (req, res, next) => {
 	}
 })
 
-//GET Route--> Show User Profile
+//GET Route--> ViewProfile
 router.get('/:userId', async (req, res, next) => {
 	try {
 		const findUser = await User.findById(req.params.userId)
@@ -34,6 +34,23 @@ router.get('/:userId', async (req, res, next) => {
 	}
 	catch (err) {
 		next(err)
+	}
+})
+
+// GET Route --> ShowOtherUsersProfile
+router.get('/checkprofile/:otherUserId', async (req, res, next) => {
+	try {
+
+		const findUserToViewProfile = await User.findById(req.params.otherUserId)
+		res.json({
+			data: findUserToViewProfile,
+			message: `Here is found user`
+		})
+
+	}
+
+	catch (err) {
+		next (err)
 	}
 })
 
