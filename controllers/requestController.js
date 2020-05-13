@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
 })
 
 
-// POST --> Add frind route
+// POST --> Create friend request route
 router.post('/createrequest/:id', async (req, res, next) => {
 	try {
 
