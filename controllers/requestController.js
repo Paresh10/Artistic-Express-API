@@ -39,6 +39,12 @@ router.post('/createrequest/:id', async (req, res, next) => {
 
 		const createRequest = await Request.create(createNewRequest)
 
+		findUser.pendingRequest.push(findUserToAdd)
+		findUserToAdd.pendingRequest.push(findUser)
+
+		await findUser.save()
+		await findUserToAdd.save()
+
 		res.json({
 			request: createRequest,
 			data: findUser,
@@ -53,64 +59,61 @@ router.post('/createrequest/:id', async (req, res, next) => {
 })
 
 
-// ADD friend
-router.post('/notifications/:senderId/:recipientId', async (req, res, next) => {
-	
-	// if user accepts a frind request than push user in an friends array
-	// and delete friend request
 
+
+
+router.post('/notifications/:requestId', async (req, res, next) => {
 	try {
 
-	const sender = await User.findById(req.params.senderId)
-
-	const recipient = await User.findById(req.params.recipientId)	
-
-	const findRequest = await Request.findOne({sender: sender})
-
-	const requestStatus = ({
-		status: req.body.status
-	})
-
-	if (requestStatus.status === true) {
-
-		sender.friends.push(recipient)
-		recipient.friends.push(sender)
-
-		await sender.save()
-		await recipient.save()
-
-		const deleteRequest = await Request.findOneAndRemove({sender: sender})
-
-		res.json({
-		senderData: sender,
-		recipientData: recipient,
-		message: ` Friend List was updated`
-	})
-
-	}
-
-	else {
-		
-		// if not then siply delete friend request
-		const deleteRequest = await Request.findOneAndRemove({sender: sender})
-
-		res.json({
-			message: `Freind Request was deleted`
-		})
-	}
+		const findRequest = await Request.findById(req.params.requestId)
+		.populate('sender')
+		.populate('recipient')
 
 
-	}
+
+
+		const sender = await User.findOne(findRequest.sender._id)
+		const recipient = await User.findOne(findRequest.recipient._id)
+
+ 		
+		const requestStatus = ({
+				status: req.body.status
+			})
+
+			if (requestStatus.status === true) {
+
+				sender.friends.push(recipient)
+				recipient.friends.push(sender)
+
+				await sender.save()
+				await recipient.save()
+
+				const deleteRequest = await Request.findOneAndRemove(req.params.requestId)
+
+				res.json({
+					data: {
+						sender: sender,
+						recipient: recipient
+					},
+					message: ` Friend List was updated`
+				})
+
+			}
+
+			else {
+				
+				// if not then siply delete friend request
+				const deleteRequest = await Request.findOneAndRemove(req.params.requestId)
+
+				res.json({
+					message: `Freind Request was deleted`
+				})		
+			}
+		}
 	catch (err) {
-		next(err)
+		next (err)
 	}
-
 })
-
-
-
-
-
 
 
 
