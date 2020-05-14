@@ -102,7 +102,11 @@ router.get('/:postId/edit', async (req, res, next) => {
 // Update route
 router.put('/:postId', async (req, res, next) => {
 	try {
-		const postForUpdate = {body: req.body.body}
+
+		const postForUpdate = {
+			body: req.body.body,
+			likes: req.body.likes
+		}
 
 		console.log('req.body')
 		console.log(req.body)
@@ -124,6 +128,23 @@ router.put('/:postId', async (req, res, next) => {
 
 
 
+
+// Like route
+// router.put('/likes/:id', async (req, res, next) => {
+// 	try {
+
+// 		const updateLikeOnPost = {
+// 			like: req.body.like
+// 		}
+
+// 		const postForLike = await Post.findById(req.params.id)
+
+
+// 	}
+// 	catch (err) {
+
+// 	}
+// })
 
 
 

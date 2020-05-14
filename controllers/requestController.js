@@ -8,8 +8,34 @@ const requireAuth = ('../lib/requireAuth')
 
 
 
+// Make request only for loggedin users 
+router.get('/friendsrequests', async (req, res, next) => {
+	try {
 
-// GET for individual Requests
+	const findLoggedInUser = await User.findById(req.session.userId)
+
+	const findAllRequest = await Request.find().populate('sender').populate('recipient')
+
+	const findUsersRequests = await Request.find({ findLoggedInUser: findAllRequest.recipient })
+		.populate('sender')
+		.populate('recipient')
+
+
+		res.json({
+			data: findUsersRequests,
+			message: `It worked!`
+		})
+		
+	}
+	catch (err) {
+		next (err)
+	}
+})
+
+
+
+
+// GET for All Requests
 router.get('/', async (req, res) => {
 
 	const findAllRequests = await Request.find()
@@ -62,7 +88,7 @@ router.post('/createrequest/:id', async (req, res, next) => {
 
 
 
-router.post('/notifications/:requestId', async (req, res, next) => {
+router.put('/notifications/:requestId', async (req, res, next) => {
 	try {
 
 		const findRequest = await Request.findById(req.params.requestId)
@@ -83,7 +109,10 @@ router.post('/notifications/:requestId', async (req, res, next) => {
 			if (requestStatus.status === true) {
 
 				sender.friends.push(recipient)
+				sender.pendingRequest.pop(recipient)
+
 				recipient.friends.push(sender)
+				recipient.pendingRequest.pop(sender)
 
 				await sender.save()
 				await recipient.save()
@@ -93,7 +122,7 @@ router.post('/notifications/:requestId', async (req, res, next) => {
 				res.json({
 					data: {
 						sender: sender,
-						recipient: recipient
+						recipient	: recipient
 					},
 					message: ` Friend List was updated`
 				})
