@@ -93,9 +93,6 @@ router.put('/:userId', async (req, res, next) => {
 })
 
 
-// Like route
-
-
 
 
 

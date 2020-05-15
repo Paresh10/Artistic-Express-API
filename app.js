@@ -57,6 +57,9 @@ app.use('/users', userController)
 const requestController = require('./controllers/requestController')
 app.use('/requests', requestController)
 
+const commentController = require('./controllers/commentController')
+app.use('/comments', commentController)
+
 
 
 // //Setup cors for users

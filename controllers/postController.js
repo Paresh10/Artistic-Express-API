@@ -9,7 +9,7 @@ const requireAuth = require('../lib/requireAuth')
 // GET route
 router.get('/', async (req, res, next) => {
 	try {
-		const findAllPosts = await Post.find().populate('user')
+		const findAllPosts = await Post.find().populate('user').populate('comments')	
 			res.json({
 				data: findAllPosts,
 				message: `Here all all the found posts`
@@ -24,7 +24,7 @@ router.get('/', async (req, res, next) => {
 // Show route
 router.get('/:postId', requireAuth, async (req, res, next) => {
 	try {
-		const foundPost = await Post.findById(req.params.postId).populate('user')
+		const foundPost = await Post.findById(req.params.postId).populate('user').populate('comments')
 		res.json({
 			data: foundPost,
 			message: `Here is the found post`
