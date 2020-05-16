@@ -26,8 +26,8 @@ router.get('/:postId', requireAuth, async (req, res, next) => {
 	try {
 		const foundPost = await Post.findById(req.params.postId)
 		.populate('user')
-		.populate('comments')
-		
+		.populate({path: 'comments', populate:{path: 'commenter'}})
+
 		res.json({
 			data: foundPost,
 			message: `Here is the found post`
