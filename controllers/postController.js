@@ -130,14 +130,23 @@ router.put('/:postId', async (req, res, next) => {
 
 
 // Like route
-router.post('/likes/:id', async (req, res, next) => {
+router.put('/likes/:id', async (req, res, next) => {
 	try {
 
-		const updateLikeOnPost = {
-			like: req.body.like
-		}
+		// const updateLikeOnPost = {
+		// 	like: req.body.like
+		// }
 
 		const postForLike = await Post.findById(req.params.id)
+
+		postForLike.likesArray.push(req.session.userId)
+
+		await postForLike.save()
+
+		res.json({
+			data: postForLike,
+			message: "It worked"
+		})
 
 
 	}
