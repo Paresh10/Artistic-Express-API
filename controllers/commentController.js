@@ -7,10 +7,35 @@ const Comment = require('../models/comment')
 const requireAuth = ('../lib/requireAuth')
 
 
+// Get Post for comment routes
+router.get('/:postId', async (req, res, next) => {
+	
+	try {
+
+	const findPost = await Post.findById(req.params.postId)
+	.populate({path: 'comments', populate: {path: 'commenter'}})	
+
+	console.log("findPost")
+	console.log(findPost)
+
+	res.json({
+		data: findPost,
+		message: `Found post`
+	})
+	}
+	catch (err) {
+		next(err)
+	}
+})
+
+
 // Post Create Route --> for comments on post
 router.post('/:postId', async (req, res, next) => {
 	try {
-		const createNewComment = await Comment.create(req.body)
+		const createNewComment = await Comment.create({
+			text: req.body.text,
+			commenter: req.session.userId
+		})
 
 		const selectedPost = await Post.findById(req.params.postId)
 
@@ -29,11 +54,13 @@ router.post('/:postId', async (req, res, next) => {
 })
 
 
+
+
 // Get all comments
 router.get('/', async (req, res, next) => {
 	try {
 
-		const foundComments = await Comment.find().populate('name')
+		const foundComments = await Comment.find().populate('commenter')
 
 		console.log("foundComments")
 		console.log(foundComments)
