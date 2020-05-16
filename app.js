@@ -3,9 +3,13 @@ require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const app = express()
+const http = require('http').createServer(app)
 const bodyParser = require('body-parser')
 const session = require('express-session')
+const io = require('socket.io')(http)
 const PORT = process.env.PORT
+
+
 
 
 // Setup CORS
@@ -66,9 +70,20 @@ app.use('/comments', commentController)
 // CORS(users, origins=['http://localhost:3000'], supports_credentials=true)
 
 
+// Set up Socket.io  here
+
+
+io.on('connection', socket => {
+  socket.on('message', ({name, message}) => {
+    io.emit('message', {name, message})
+  })
+} )
+
+
+
 
 // Connect to server
-app.listen(PORT, () => {
+http.listen(PORT, () => {
   const date = new Date()
   console.log(`Today is ${date.toDateString()} and server is running on port ${PORT}`);
 })

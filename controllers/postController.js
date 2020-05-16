@@ -130,21 +130,21 @@ router.put('/:postId', async (req, res, next) => {
 
 
 // Like route
-// router.put('/likes/:id', async (req, res, next) => {
-// 	try {
+router.post('/likes/:id', async (req, res, next) => {
+	try {
 
-// 		const updateLikeOnPost = {
-// 			like: req.body.like
-// 		}
+		const updateLikeOnPost = {
+			like: req.body.like
+		}
 
-// 		const postForLike = await Post.findById(req.params.id)
+		const postForLike = await Post.findById(req.params.id)
 
 
-// 	}
-// 	catch (err) {
+	}
+	catch (err) {
 
-// 	}
-// })
+	}
+})
 
 
 
