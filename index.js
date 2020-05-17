@@ -7,7 +7,7 @@ const http = require('http').createServer(app)
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const io = require('socket.io')(http)
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 8000 
 
 
 
