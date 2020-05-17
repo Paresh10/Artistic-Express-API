@@ -84,7 +84,7 @@ io.on('connection', socket => {
 
 
 // Connect to server
-http.listen(PORT, () => {
+http.listen(PORT || 8000, () => {
   const date = new Date()
   console.log(`Today is ${date.toDateString()} and server is running on port ${PORT}`);
 })
