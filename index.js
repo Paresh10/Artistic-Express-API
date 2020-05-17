@@ -7,7 +7,7 @@ const http = require('http').createServer(app)
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const io = require('socket.io')(http)
-const PORT = process.env.PORT || 8000 
+const PORT = process.env.PORT 
 
 
 
@@ -84,7 +84,7 @@ io.on('connection', socket => {
 
 
 // Connect to server
-http.listen(PORT || 8000, () => {
+http.listen(PORT, () => {
   const date = new Date()
   console.log(`Today is ${date.toDateString()} and server is running on port ${PORT}`);
 })
