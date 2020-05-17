@@ -14,7 +14,7 @@ const PORT = process.env.PORT
 
 // Setup CORS
 app.use(cors({
-  origin: ['http://localhost:3001'],
+  origin: ['http://localhost:3001', 'https://artistic-react.herokuapp.com'],
   credentials: true
 }))
 
