@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose')
 
-const connectionString = MONGODB_URI || process.env.MONGODB_URI
+const connectionString = process.env.MONGODB_URI
 
 const MongoClient = require("mongodb").MongoClient;
 
