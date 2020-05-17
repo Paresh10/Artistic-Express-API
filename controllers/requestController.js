@@ -9,22 +9,30 @@ const requireAuth = ('../lib/requireAuth')
 
 
 // Make request only for loggedin users 
-router.get('/friendsrequests', async (req, res, next) => {
+router.get('/friendrequests', async (req, res, next) => {
 	try {
 
 	const findLoggedInUser = await User.findById(req.session.userId)
 
-	const findAllRequest = await Request.find().populate('sender').populate('recipient')
+	const findAllRequests = await Request.find().populate('sender').populate('recipient')
 
-	const findUsersRequests = await Request.find({ findLoggedInUser: findAllRequest.recipient })
-		.populate('sender')
-		.populate('recipient')
+	for (let i = 0; i < findAllRequests.length; i++) {
+		if (findAllRequests[i].recipient.id === findLoggedInUser.id ) {
 
+			console.log("findAllRequests")
+			console.log(findAllRequests)
 
-		res.json({
-			data: findUsersRequests,
-			message: `It worked!`
+			res.json({
+				data: findAllRequests,
+				message: `${findLoggedInUser.name}'s friend requests!`
 		})
+		}
+		else {
+			console.log("No requests were found")
+		}
+	}
+
+
 		
 	}
 	catch (err) {
