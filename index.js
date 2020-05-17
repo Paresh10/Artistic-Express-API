@@ -52,10 +52,6 @@ app.use((req, res, next) => {
 
 
 
-// Cors enabling route for all
-app.options('*', cors()) 
-  
-
 
 // Controllers
 const authController = require('./controllers/authController')

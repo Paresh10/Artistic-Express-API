@@ -16,21 +16,27 @@ router.get('/friendrequests', async (req, res, next) => {
 
 	const findAllRequests = await Request.find().populate('sender').populate('recipient')
 
+			// create new array
+	const newRequestsArray = []
+
+
 	for (let i = 0; i < findAllRequests.length; i++) {
 		if (findAllRequests[i].recipient.id === findLoggedInUser.id ) {
 
-			console.log("findAllRequests")
-			console.log(findAllRequests)
+			newRequestsArray.push(findAllRequests[i])
 
-			res.json({
-				data: findAllRequests,
-				message: `${findLoggedInUser.name}'s friend requests!`
-		})
+			console.log("newRequestsArray in loop")
+			console.log(newRequestsArray)
 		}
 		else {
-			console.log("No requests were found")
+			console.log("No Request")
 		}
 	}
+
+			res.json({
+				data: newRequestsArray,
+				message: `${findLoggedInUser.name}'s friend requests!`
+		})
 
 
 		
@@ -130,7 +136,7 @@ router.put('/notifications/:requestId', async (req, res, next) => {
 				res.json({
 					data: {
 						sender: sender,
-						recipient	: recipient
+						recipient: recipient
 					},
 					message: ` Friend List was updated`
 				})
@@ -139,14 +145,18 @@ router.put('/notifications/:requestId', async (req, res, next) => {
 
 			else {
 				
-				// if not then siply delete friend request
+				// if not then simply delete friend request
+
 				sender.pendingRequest.pop(recipient)
 				recipient.pendingRequest.pop(sender)
 
 				await sender.save()
 				await recipient.save()
-
+				
 				const deleteRequest = await Request.findOneAndRemove(req.params.requestId)
+
+
+
 
 				res.json({
 					message: `Freind Request was deleted`
