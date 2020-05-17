@@ -77,6 +77,29 @@ router.get('/', async (req, res, next) => {
 
 
 
+// Delete COmment
+router.delete('/:postId/:commentId', async (req, res, next) => {
+	try {
+
+		const findPost = await Post.findById(req.params.postId).populate('comments')
+
+		for (let i = 0; i < findPost.comments.length; i++) {
+			if (findPost.comments[i].id == req.params.commentId)
+				findPost.comments.splice(i, 1)
+		}
+
+		await findPost.save()
+
+		res.json({
+			message: 'Comment was deleted'
+		})
+
+	}
+	catch (err) {
+		next (err)
+	}
+})
+
 
 
 

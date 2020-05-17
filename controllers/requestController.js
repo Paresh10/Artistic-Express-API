@@ -132,6 +132,12 @@ router.put('/notifications/:requestId', async (req, res, next) => {
 			else {
 				
 				// if not then siply delete friend request
+				sender.pendingRequest.pop(recipient)
+				recipient.pendingRequest.pop(sender)
+
+				await sender.save()
+				await recipient.save()
+
 				const deleteRequest = await Request.findOneAndRemove(req.params.requestId)
 
 				res.json({

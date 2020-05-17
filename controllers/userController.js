@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const router = express.Router()
 const Post = require('../models/post')
 const User = require('../models/user')
+const Comment = require('../models/comment')
 const requireAuth = ('../lib/requireAuth')
 
 
@@ -59,6 +60,10 @@ router.get('/checkprofile/:otherUserId', async (req, res, next) => {
 router.delete('/:userId', async (req, res, next) => {
 	try {
 		foundPosts = await Post.deleteMany({
+			user: req.params.userId
+		})
+
+		foundComments = await Comment.remove({
 			user: req.params.userId
 		})
 

@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const router = express.Router()
 const Post = require('../models/post')
 const User = require('../models/user')
+const Comment = require('../models/comment')
 const requireAuth = require('../lib/requireAuth')
 
 
@@ -75,11 +76,16 @@ router.post('/', async (req, res, next) => {
 // Delete route
 router.delete('/:postId', async (req, res, next) => {
 	try {
+
+		deletedComments = await Comment.remove({
+			post: req.params.postId
+		})
+
 		deletedPost = await Post.findByIdAndRemove(req.params.postId)
 		res.json({
 			message: `Post was deleted`
 		})
-	}
+	}	
 	catch (err) {
 		next(err)
 	}
