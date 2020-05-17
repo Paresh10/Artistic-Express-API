@@ -20,6 +20,7 @@ app.use(cors({
 }))
 
 
+
 // Require Database
 require('./db/db')
 
@@ -48,6 +49,13 @@ app.use((req, res, next) => {
   req.session.message = undefined
   next()
 })
+
+
+
+// Cors enabling route for all
+app.options('*', cors()) 
+  
+
 
 // Controllers
 const authController = require('./controllers/authController')
