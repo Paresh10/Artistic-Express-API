@@ -27,7 +27,7 @@ router.get('/', async (req, res, next) => {
 //GET Route--> ViewProfile
 router.get('/:userId', async (req, res, next) => {
 	try {
-		const findUser = await User.findById(req.params.userId)
+		const findUser = await User.findById(req.params.userId).populate('friends')
 		res.json({
 			data: findUser,
 			message: `Here is your profile`
